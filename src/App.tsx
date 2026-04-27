@@ -177,16 +177,13 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <motion.div 
-              whileHover={{ scale: 1.05, rotate: 10 }}
-              className="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-sky-100"
-            >
-              <Zap className="w-6 h-6 fill-white" />
-            </motion.div>
-            <span className="text-2xl font-black tracking-tighter text-slate-900">
-              ARCTICOOL
-            </span>
+          <div className="flex items-center group cursor-pointer">
+            <motion.img 
+              src="/images/logo.webp" 
+              alt="Arcticool Logo" 
+              whileHover={{ scale: 1.02 }}
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </div>
 
           {/* Desktop Nav */}
@@ -967,9 +964,12 @@ export default function App() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-24 mb-24"
           >
             <div>
-              <div className="flex items-center gap-3 mb-10 text-white">
-                <Zap className="w-10 h-10 fill-sky-500 text-sky-500" />
-                <span className="text-3xl font-black tracking-tighter">ARCTICOOL</span>
+              <div className="flex items-center mb-10">
+                <img 
+                  src="/images/logo.webp" 
+                  alt="Arcticool Logo" 
+                  className="h-12 md:h-14 w-auto object-contain" 
+                />
               </div>
               <p className="text-lg leading-relaxed mb-12 font-bold">
                 Penyedia jasa service AC profesional dengan teknisi berpengalaman untuk kenyamanan hunian dan bisnis Anda.
