@@ -84,26 +84,26 @@ function SectionHeader({ eyebrow, title, subtitle, light = false }: { eyebrow?: 
       whileInView="animate"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className={`mb-20 ${light ? 'text-white' : 'text-slate-900'}`}
+      className={`mb-10 md:mb-16 ${light ? 'text-white' : 'text-slate-900'}`}
     >
       {eyebrow && (
         <motion.span 
           variants={fadeUp}
-          className={`${light ? 'text-sky-400' : 'text-sky-600'} text-xs font-black tracking-[0.4em] uppercase mb-4 block`}
+          className={`${light ? 'text-sky-400' : 'text-sky-600'} text-xs font-black tracking-[0.4em] uppercase mb-3 block`}
         >
           {eyebrow}
         </motion.span>
       )}
       <motion.h2 
         variants={fadeUp}
-        className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8"
+        className="text-[clamp(32px,5vw,56px)] font-extrabold tracking-tight mb-4 leading-[1.1]"
       >
         {title}
       </motion.h2>
       {subtitle && (
         <motion.p 
           variants={fadeUp}
-          className={`${light ? 'text-slate-400' : 'text-slate-500'} text-xl max-w-2xl font-medium leading-relaxed`}
+          className={`${light ? 'text-slate-400' : 'text-slate-500'} text-base md:text-lg max-w-2xl font-medium leading-relaxed`}
         >
           {subtitle}
         </motion.p>
@@ -172,7 +172,7 @@ export default function App() {
         transition={{ duration: 0.6, ease: EASE }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-white/95 backdrop-blur-xl h-20 shadow-xl shadow-slate-200/20 border-b border-slate-100' 
+            ? 'bg-white/95 backdrop-blur-xl h-[72px] shadow-lg shadow-slate-200/20 border-b border-slate-100' 
             : 'bg-transparent h-24'
         }`}
       >
@@ -190,15 +190,21 @@ export default function App() {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
-            {['Services', 'About', 'Pricing', 'FAQ', 'Contact'].map((item) => (
+          <div className="hidden md:flex items-center gap-8">
+            {[
+              { id: 'services', label: 'Layanan' },
+              { id: 'about', label: 'Tentang' },
+              { id: 'pricing', label: 'Harga' },
+              { id: 'faq', label: 'FAQ' },
+              { id: 'contact', label: 'Kontak' }
+            ].map((item) => (
               <motion.a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
+                key={item.id} 
+                href={`#${item.id}`} 
                 whileHover={{ y: -2 }}
-                className="text-xs font-black text-slate-600 hover:text-sky-600 transition-colors tracking-[0.15em] uppercase"
+                className="text-[11px] font-black text-slate-600 hover:text-sky-600 transition-colors tracking-[0.15em] uppercase"
               >
-                {item}
+                {item.label}
               </motion.a>
             ))}
           </div>
@@ -233,15 +239,20 @@ export default function App() {
               transition={{ duration: 0.4, ease: EASE }}
               className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
             >
-              <div className="px-6 py-10 flex flex-col gap-8 text-center">
-                {['Services', 'About', 'Pricing', 'Contact'].map((item) => (
+              <div className="px-6 py-10 flex flex-col gap-6 text-center">
+                {[
+                  { id: 'services', label: 'Layanan' },
+                  { id: 'about', label: 'Tentang' },
+                  { id: 'pricing', label: 'Harga' },
+                  { id: 'contact', label: 'Kontak' }
+                ].map((item) => (
                   <a 
-                    key={item} 
-                    href={`#${item.toLowerCase()}`} 
+                    key={item.id} 
+                    href={`#${item.id}`} 
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-2xl font-black text-slate-900 tracking-tight"
+                    className="text-xl font-black text-slate-900 tracking-tight"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 ))}
                 <div className="pt-4 flex flex-col gap-4">
@@ -257,7 +268,7 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative px-6 pt-32 pb-24 md:pt-56 md:pb-40 max-w-7xl mx-auto overflow-hidden">
+        <section className="relative px-6 pt-24 pb-16 md:pt-48 md:pb-32 max-w-7xl mx-auto overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             {/* Left Content */}
             <motion.div 
@@ -276,7 +287,7 @@ export default function App() {
               
               <motion.h1 
                 variants={fadeUp}
-                className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.95] mb-10 tracking-tighter"
+                className="text-[clamp(40px,7vw,84px)] font-black text-slate-900 leading-[0.95] mb-8 tracking-tighter"
               >
                 Service AC <br />
                 Panggilan <span className="text-sky-600">Rumah</span>
@@ -431,7 +442,7 @@ export default function App() {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="px-6 py-24 md:py-40 bg-white overflow-hidden">
+        <section id="services" className="px-6 py-16 md:py-24 bg-white overflow-hidden scroll-mt-[90px]">
           <div className="max-w-7xl mx-auto">
             <SectionHeader 
               eyebrow="LAYANAN UNGGULAN"
@@ -461,7 +472,7 @@ export default function App() {
                   <div className="inline-block px-4 py-1.5 rounded-full bg-sky-500 text-white text-[10px] font-black tracking-[0.3em] uppercase mb-8">BEST SELLER</div>
                   <h3 className="text-3xl font-black text-white mb-6 tracking-tight">Cuci AC Indoor & Outdoor</h3>
                   <p className="text-slate-400 text-lg leading-relaxed mb-10 font-medium">
-                    Membersihkan unit secara menyeluruh agar AC kembali dingin, hemat energi, and udara lebih sehat.
+                    Membersihkan unit secara menyeluruh agar AC kembali dingin, hemat energi, dan udara lebih sehat.
                   </p>
                   <button className="flex items-center gap-3 text-sky-400 font-black text-sm uppercase tracking-widest hover:gap-5 transition-all group/btn">
                     Konsultasi layanan
@@ -588,7 +599,7 @@ export default function App() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="bg-[#0b1b2d] py-32 md:py-48 px-6 relative overflow-hidden">
+        <section id="pricing" className="bg-[#0b1b2d] py-16 md:py-24 px-6 relative overflow-hidden scroll-mt-[90px]">
           <motion.div 
             animate={{ 
               x: [0, 100, 0],
@@ -600,21 +611,21 @@ export default function App() {
           />
 
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-32">
+            <div className="text-center mb-10 md:mb-16">
               <SectionHeader 
                 light 
-                eyebrow="PRICING & PACKAGES"
+                eyebrow="PAKET & HARGA"
                 title="Estimasi Biaya Service AC"
-                subtitle="Dapatkan kualitas layanan premium dengan harga yang transparan dan kompetitif."
+                subtitle="Harga transparan untuk kebutuhan service, cuci, isi freon, dan bongkar pasang AC."
               />
               <motion.div 
                 variants={fadeUp}
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true }}
-                className="inline-flex items-center gap-4 px-8 py-4 rounded-[32px] bg-white/5 border border-white/10 text-amber-400 text-base font-black uppercase tracking-widest"
+                className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-amber-400 text-sm font-black uppercase tracking-widest"
               >
-                <AlertCircle className="w-6 h-6" />
+                <AlertCircle className="w-5 h-5" />
                 Biaya final dikonfirmasi teknisi di lokasi
               </motion.div>
             </div>
@@ -629,116 +640,117 @@ export default function App() {
               {/* Card 1 */}
               <motion.div 
                 variants={fadeUp}
-                whileHover={{ y: -10 }}
-                className="bg-white/5 backdrop-blur-2xl border border-white/10 p-12 md:p-14 rounded-[64px] flex flex-col hover:border-sky-500/40 transition-all group"
+                whileHover={{ y: -8 }}
+                className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-[40px] flex flex-col hover:border-sky-500/40 transition-all group"
               >
-                <div className="mb-12">
-                  <span className="text-sky-400 text-[10px] font-black tracking-[0.3em] uppercase mb-6 block">BASIC CARE</span>
-                  <h3 className="text-3xl font-black text-white mb-6">Cuci AC Standard</h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-black text-slate-500 uppercase mr-2">Mulai</span>
-                    <span className="text-6xl font-black text-white tracking-tighter">Rp 75rb</span>
+                <div className="mb-8">
+                  <span className="text-sky-400 text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">BASIC CARE</span>
+                  <h3 className="text-2xl font-black text-white mb-4">Cuci AC Standard</h3>
+                  <p className="text-slate-400 text-sm font-medium mb-6">Pembersihan rutin agar AC tetap prima.</p>
+                  <div className="flex items-baseline gap-1.5 whitespace-nowrap overflow-hidden">
+                    <span className="text-[10px] font-black text-slate-500 uppercase">Mulai</span>
+                    <span className="text-[clamp(32px,4vw,48px)] font-black text-white tracking-tighter">Rp 75rb</span>
+                    <span className="text-xs font-bold text-slate-500">/unit</span>
                   </div>
                 </div>
 
-                <div className="space-y-6 mb-16 flex-grow">
+                <div className="space-y-4 mb-8">
                   {["Cuci indoor & outdoor", "Pembersihan filter", "Cek aliran air", "Cek kondisi freon"].map((f) => (
-                    <div key={f} className="flex items-center gap-4 text-slate-300 text-base font-bold">
-                      <div className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center">
-                        <Check className="w-3.5 h-3.5 text-sky-400 stroke-[4]" />
+                    <div key={f} className="flex items-center gap-3 text-slate-300 text-sm font-bold">
+                      <div className="w-5 h-5 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3 h-3 text-sky-400 stroke-[4]" />
                       </div>
                       {f}
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-10 border-t border-white/10 mb-12 flex items-center gap-3 text-slate-400 text-xs font-black uppercase tracking-widest">
-                  <Clock className="w-5 h-5 text-sky-500" />
+                <div className="mt-auto pt-6 border-t border-white/10 mb-8 flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-widest">
+                  <Clock className="w-4 h-4 text-sky-500" />
                   30–45 Menit
                 </div>
 
-                <button className="w-full py-6 rounded-3xl border-2 border-white/10 text-white font-black text-xl hover:bg-white hover:text-slate-900 hover:border-white transition-all duration-300">
-                  Pilih Layanan
+                <button className="w-full py-4 rounded-2xl border-2 border-white/10 text-white font-black text-sm hover:bg-white hover:text-slate-900 hover:border-white transition-all duration-300">
+                  Pesan Cuci AC
                 </button>
               </motion.div>
 
               {/* Card 2 - Recommended */}
               <motion.div 
                 variants={scaleInSubtle}
-                whileHover={{ y: -15 }}
-                className="relative bg-white p-14 md:p-16 rounded-[72px] shadow-[0_64px_128px_-32px_rgba(14,165,233,0.3)] z-10 flex flex-col group overflow-hidden"
+                whileHover={{ y: -12 }}
+                className="relative bg-white p-8 md:p-10 rounded-[44px] shadow-[0_40px_80px_-20px_rgba(14,165,233,0.25)] z-10 flex flex-col group overflow-hidden border-2 border-sky-100"
               >
-                <motion.div 
-                  initial={{ opacity: 0, y: -20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  className="absolute top-0 right-0 left-0 bg-sky-600 text-white text-xs font-black tracking-[0.4em] uppercase text-center py-4 px-6"
-                >
+                <div className="absolute top-0 right-0 left-0 bg-sky-600 text-white text-[9px] font-black tracking-[0.3em] uppercase text-center py-2.5">
                   PALING DIREKOMENDASIKAN
-                </motion.div>
+                </div>
 
-                <div className="mt-12 mb-12">
-                  <span className="text-sky-600 text-[10px] font-black tracking-[0.3em] uppercase mb-6 block">FULL SERVICE</span>
-                  <h3 className="text-4xl font-black text-slate-900 mb-8 tracking-tighter">Paket Hemat Dingin</h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-black text-slate-400 uppercase mr-2">Mulai</span>
-                    <span className="text-7xl font-black text-slate-900 tracking-tighter">Rp 195rb</span>
+                <div className="mt-8 mb-8">
+                  <span className="text-sky-600 text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">FULL SERVICE</span>
+                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter">Paket Hemat Dingin</h3>
+                  <p className="text-slate-500 text-sm font-medium mb-6">Solusi lengkap untuk performa maksimal.</p>
+                  <div className="flex items-baseline gap-1.5 whitespace-nowrap overflow-hidden">
+                    <span className="text-[10px] font-black text-slate-400 uppercase">Mulai</span>
+                    <span className="text-[clamp(40px,5vw,56px)] font-black text-slate-900 tracking-tighter">Rp 195rb</span>
+                    <span className="text-xs font-bold text-slate-400">/paket</span>
                   </div>
                 </div>
 
-                <div className="space-y-6 mb-16 flex-grow">
+                <div className="space-y-4 mb-8">
                   {["Cuci indoor & outdoor", "Tambah freon lengkap", "Vakum drainase", "Cek suhu & tekanan", "Garansi 30 Hari"].map((f) => (
-                    <div key={f} className="flex items-center gap-5 text-slate-700 text-lg font-black tracking-tight">
-                      <div className="w-7 h-7 rounded-full bg-sky-100 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-sky-600 stroke-[4]" />
+                    <div key={f} className="flex items-center gap-4 text-slate-700 text-base font-black tracking-tight">
+                      <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3.5 h-3.5 text-sky-600 stroke-[4]" />
                       </div>
                       {f}
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-sky-50 rounded-3xl p-6 mb-12 flex items-center gap-4 text-sky-700 text-sm font-black uppercase tracking-widest">
-                  <Star className="w-6 h-6 fill-sky-600" />
-                  Pilihan No. 1 Pelanggan
+                <div className="mt-auto bg-sky-50 rounded-2xl p-4 mb-8 flex items-center gap-3 text-sky-700 text-[10px] font-black uppercase tracking-widest">
+                  <Star className="w-5 h-5 fill-sky-600 flex-shrink-0" />
+                  60–90 Menit
                 </div>
 
-                <button className="w-full py-7 rounded-[32px] bg-slate-900 text-white font-black text-2xl hover:bg-sky-600 transition-all duration-300 shadow-2xl shadow-slate-200 border-b-8 border-black/20">
-                  Pesan Sekarang
+                <button className="w-full py-5 rounded-[20px] bg-slate-900 text-white font-black text-lg hover:bg-sky-600 transition-all duration-300 shadow-xl shadow-slate-200 border-b-4 border-black/20">
+                  Pesan Paket
                 </button>
               </motion.div>
 
               {/* Card 3 */}
               <motion.div 
                 variants={fadeUp}
-                whileHover={{ y: -10 }}
-                className="bg-white/5 backdrop-blur-2xl border border-white/10 p-12 md:p-14 rounded-[64px] flex flex-col hover:border-sky-500/40 transition-all group"
+                whileHover={{ y: -8 }}
+                className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-[40px] flex flex-col hover:border-sky-500/40 transition-all group"
               >
-                <div className="mb-12">
-                  <span className="text-sky-400 text-[10px] font-black tracking-[0.3em] uppercase mb-6 block">INSTALLATION</span>
-                  <h3 className="text-3xl font-black text-white mb-6">Bongkar Pasang</h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-black text-slate-500 uppercase mr-2">Mulai</span>
-                    <span className="text-6xl font-black text-white tracking-tighter">Rp 350rb</span>
+                <div className="mb-8">
+                  <span className="text-sky-400 text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">INSTALLATION</span>
+                  <h3 className="text-2xl font-black text-white mb-4">Bongkar Pasang</h3>
+                  <p className="text-slate-400 text-sm font-medium mb-6">Pengerjaan rapi dan profesional.</p>
+                  <div className="flex items-baseline gap-1.5 whitespace-nowrap overflow-hidden">
+                    <span className="text-[10px] font-black text-slate-500 uppercase">Mulai</span>
+                    <span className="text-[clamp(32px,4vw,48px)] font-black text-white tracking-tighter">Rp 350rb</span>
+                    <span className="text-xs font-bold text-slate-500">/unit</span>
                   </div>
                 </div>
 
-                <div className="space-y-6 mb-16 flex-grow">
+                <div className="space-y-4 mb-8">
                   {["Bongkar unit lama", "Instalasi unit baru", "Pemasangan bracket", "Uji coba pendinginan", "Cek kebocoran"].map((f) => (
-                    <div key={f} className="flex items-center gap-4 text-slate-300 text-base font-bold">
-                      <div className="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center">
-                        <Check className="w-3.5 h-3.5 text-sky-400 stroke-[4]" />
+                    <div key={f} className="flex items-center gap-3 text-slate-300 text-sm font-bold">
+                      <div className="w-5 h-5 rounded-full bg-sky-500/20 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3 h-3 text-sky-400 stroke-[4]" />
                       </div>
                       {f}
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-10 border-t border-white/10 mb-12 flex items-center gap-3 text-slate-400 text-xs font-black uppercase tracking-widest">
-                  <Clock className="w-5 h-5 text-sky-500" />
+                <div className="mt-auto pt-6 border-t border-white/10 mb-8 flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-widest">
+                  <Clock className="w-4 h-4 text-sky-500" />
                   Waktu Menyesuaikan
                 </div>
 
-                <button className="w-full py-6 rounded-3xl border-2 border-white/10 text-white font-black text-xl hover:bg-white hover:text-slate-900 hover:border-white transition-all duration-300">
+                <button className="w-full py-4 rounded-2xl border-2 border-white/10 text-white font-black text-sm hover:bg-white hover:text-slate-900 hover:border-white transition-all duration-300">
                   Pilih Layanan
                 </button>
               </motion.div>
@@ -747,13 +759,13 @@ export default function App() {
         </section>
 
         {/* Testimonials */}
-        <section className="bg-white py-24 md:py-48 px-6">
+        <section id="testimonials" className="bg-white py-16 md:py-24 px-6 scroll-mt-[90px]">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-32">
+            <div className="text-center mb-16 md:mb-24">
               <SectionHeader 
-                eyebrow="CUSTOMER REVIEWS"
-                title="Apa kata mereka?"
-                subtitle="Lebih dari 5.000+ pelanggan telah mempercayakan kenyamanan udara mereka kepada Arcticool."
+                eyebrow="TESTIMONI PELANGGAN"
+                title="Apa Kata Pelanggan Kami?"
+                subtitle="Lebih dari 5.000 pelanggan telah mempercayakan perawatan AC rumah, kantor, dan tempat usaha kepada Arcticool."
               />
             </div>
 
@@ -773,28 +785,28 @@ export default function App() {
                   key={idx}
                   variants={fadeUp}
                   whileHover={{ y: -8 }}
-                  className="bg-slate-50 p-12 rounded-[64px] border border-slate-100 flex flex-col group hover:bg-white hover:shadow-2xl transition-all duration-500"
+                  className="bg-slate-50 p-8 md:p-10 rounded-[48px] border border-slate-100 flex flex-col group hover:bg-white hover:shadow-2xl transition-all duration-500"
                 >
                   <motion.div 
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 + idx * 0.1 }}
-                    className="flex gap-1.5 mb-10"
+                    className="flex gap-1 mb-8"
                   >
                     {[1, 2, 3, 4, 5].map((s) => (
                       <Star key={s} className="w-5 h-5 fill-amber-400 text-amber-400" />
                     ))}
                   </motion.div>
-                  <p className="text-slate-800 text-xl leading-relaxed font-black tracking-tight italic mb-12 flex-grow">
+                  <p className="text-slate-800 text-lg leading-relaxed font-black tracking-tight italic mb-8 flex-grow">
                     "{item.text}"
                   </p>
-                  <div className="flex items-center gap-6 pt-10 border-t border-slate-200/50">
-                    <div className="w-16 h-16 rounded-3xl bg-sky-600 text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-sky-100">
+                  <div className="flex items-center gap-5 pt-8 border-t border-slate-200/50">
+                    <div className="w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-sky-100">
                       {item.name.charAt(0)}
                     </div>
                     <div>
-                      <div className="font-black text-slate-900 text-xl tracking-tight">{item.name}</div>
-                      <div className="text-slate-500 text-sm font-bold tracking-widest uppercase">{item.loc}</div>
+                      <div className="font-black text-slate-900 text-lg tracking-tight">{item.name}</div>
+                      <div className="text-slate-500 text-[10px] font-bold tracking-widest uppercase">{item.loc}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -804,7 +816,7 @@ export default function App() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="bg-slate-50 py-24 md:py-48 px-6">
+        <section id="faq" className="bg-slate-50 py-16 md:py-24 px-6 scroll-mt-[90px]">
           <div className="max-w-4xl mx-auto">
             <SectionHeader 
               title="Pertanyaan Umum"
@@ -827,7 +839,7 @@ export default function App() {
         </section>
 
         {/* Final CTA & Contact */}
-        <section id="contact" className="px-6 py-24 md:py-48 bg-white overflow-hidden">
+        <section id="contact" className="px-6 py-16 md:py-24 bg-white overflow-hidden scroll-mt-[90px]">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <motion.div
@@ -882,8 +894,8 @@ export default function App() {
               >
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-bl-[300px] pointer-events-none group-hover:scale-110 transition-transform duration-1000" />
                 
-                <h3 className="text-4xl font-black text-white mb-6 tracking-tight">Booking Form</h3>
-                <p className="text-slate-400 text-lg mb-16 font-medium">Isi data di bawah, admin kami akan segera menghubungi Anda untuk konfirmasi.</p>
+                <h3 className="text-4xl font-black text-white mb-6 tracking-tight">Formulir Pemesanan</h3>
+                <p className="text-slate-400 text-lg mb-12 font-medium">Isi data di bawah, admin kami akan segera menghubungi Anda untuk konfirmasi.</p>
 
                 <form className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -920,7 +932,7 @@ export default function App() {
         {/* Areas */}
         <section className="bg-slate-50 py-24 px-6 border-y border-slate-100 overflow-hidden">
           <div className="max-w-7xl mx-auto text-center">
-            <SectionHeader eyebrow="SERVICE AREAS" title="Melayani Seluruh Jabodetabek" />
+            <SectionHeader eyebrow="WILAYAH LAYANAN" title="Melayani Seluruh Jabodetabek" />
             <motion.div 
               initial="initial"
               whileInView="animate"
@@ -944,7 +956,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-32 md:py-48 px-6 overflow-hidden">
+      <footer className="bg-slate-900 text-slate-400 py-20 md:py-32 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
