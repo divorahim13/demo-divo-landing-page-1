@@ -933,13 +933,8 @@ export default function App() {
 
         {/* Areas */}
         <section className="bg-slate-50 py-24 px-6 border-y border-slate-100 overflow-hidden">
-<<<<<<< HEAD
-          <div className="max-w-7xl mx-auto text-center">
-            <SectionHeader eyebrow="WILAYAH LAYANAN" title="Melayani Seluruh Jabodetabek" />
-=======
           <div className="max-w-7xl mx-auto">
             <SectionHeader centered eyebrow="WILAYAH LAYANAN" title="Melayani Seluruh Jabodetabek" />
->>>>>>> 105c7ee (fix: align text properly, remove black border flash, clean navbar button glow)
             <motion.div 
               initial="initial"
               whileInView="animate"
