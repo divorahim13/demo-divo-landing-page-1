@@ -30,6 +30,7 @@ import {
   Settings,
   AlertCircle
 } from 'lucide-react';
+import { WhatsAppIcon } from './icons';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 
@@ -101,8 +102,8 @@ export default function App() {
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <button className="bg-[#0f172a] hover:bg-slate-800 text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-xl shadow-slate-200 group">
-              <MessageSquare className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <button className="bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-xl shadow-green-100 group border-b-4 border-black/10">
+              <WhatsAppIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
               WhatsApp Admin
             </button>
           </div>
@@ -173,8 +174,8 @@ export default function App() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5 mb-14">
-                <button className="bg-[#0f172a] text-white px-10 py-5 rounded-[24px] font-bold text-lg hover:bg-slate-800 transition-all shadow-2xl shadow-slate-200 flex items-center justify-center gap-3 group">
-                  <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                <button className="bg-[#25D366] text-white px-10 py-5 rounded-[24px] font-bold text-lg hover:bg-[#20ba5a] transition-all shadow-2xl shadow-green-100 flex items-center justify-center gap-3 group border-b-4 border-black/10">
+                  <WhatsAppIcon className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                   Chat Teknisi via WhatsApp
                 </button>
                 <button className="bg-white text-slate-900 border-2 border-slate-100 px-10 py-5 rounded-[24px] font-bold text-lg hover:border-slate-300 transition-all flex items-center justify-center gap-3">
@@ -850,6 +851,24 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp Button */}
+      <motion.a
+        href="https://wa.me/6281234567890"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 2, type: 'spring', stiffness: 260, damping: 20 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-5 rounded-full shadow-2xl shadow-green-500/40 flex items-center justify-center group"
+      >
+        <div className="absolute right-full mr-4 bg-white text-slate-900 px-4 py-2 rounded-xl text-sm font-black shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-slate-100">
+          Chat Admin Arcticool
+        </div>
+        <WhatsAppIcon className="w-8 h-8" />
+      </motion.a>
     </div>
   );
 }
