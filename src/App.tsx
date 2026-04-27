@@ -24,7 +24,11 @@ import {
   MapPin,
   Phone,
   Mail,
-  ChevronDown
+  ChevronDown,
+  Clock,
+  Search,
+  Settings,
+  AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
@@ -33,7 +37,7 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string, a: string, defaultO
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
     <motion.div 
-      className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm"
+      className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
@@ -56,7 +60,7 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string, a: string, defaultO
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="px-8 pb-8 text-slate-500 leading-relaxed">
+            <div className="px-8 pb-8 text-slate-500 leading-relaxed text-base">
               {a}
             </div>
           </motion.div>
@@ -70,37 +74,45 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-white font-sans overflow-x-hidden selection:bg-sky-100 selection:text-sky-900">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-tight text-slate-900">
-              Arcticool
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100/50">
+        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-sky-100">
+              <Zap className="w-6 h-6 fill-white" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-slate-900">
+              ARCTICOOL
             </span>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#services" className="text-slate-600 hover:text-slate-900 transition-colors">Services</a>
-            <a href="#about" className="text-slate-600 hover:text-slate-900 transition-colors">About</a>
-            <a href="#pricing" className="text-slate-600 hover:text-slate-900 transition-colors">Pricing</a>
-            <a href="#contact" className="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
+          <div className="hidden md:flex items-center gap-10">
+            {['Services', 'About', 'Pricing', 'FAQ', 'Contact'].map((item) => (
+              <a 
+                key={item} 
+                href={`#${item.toLowerCase()}`} 
+                className="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors tracking-wide uppercase"
+              >
+                {item}
+              </a>
+            ))}
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <button className="bg-[#22d3ee] hover:bg-[#06b6d4] text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-cyan-100 group">
+            <button className="bg-[#0f172a] hover:bg-slate-800 text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-xl shadow-slate-200 group">
               <MessageSquare className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              Hubungi Kami
+              WhatsApp Admin
             </button>
           </div>
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden p-2 text-slate-600"
+            className="md:hidden p-3 bg-slate-50 rounded-xl text-slate-900"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X /> : <Menu />}
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -108,18 +120,26 @@ export default function App() {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
             >
-              <div className="px-6 py-8 flex flex-col gap-6">
-                <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
-                <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
-                <a href="#pricing" onClick={() => setIsMenuOpen(false)}>Pricing</a>
-                <a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a>
+              <div className="px-6 py-10 flex flex-col gap-8">
+                {['Services', 'About', 'Pricing', 'Contact'].map((item) => (
+                  <a 
+                    key={item} 
+                    href={`#${item.toLowerCase()}`} 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-xl font-bold text-slate-900"
+                  >
+                    {item}
+                  </a>
+                ))}
                 <div className="pt-4 flex flex-col gap-4">
-                  <button className="w-full bg-[#0f172a] text-white py-3 rounded-lg font-bold">Book Now</button>
+                  <button className="w-full bg-[#0284c7] text-white py-4 rounded-2xl font-bold shadow-lg shadow-sky-100">
+                    Booking Sekarang
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -127,712 +147,482 @@ export default function App() {
         </AnimatePresence>
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Hero Section */}
-        <section className="relative px-6 py-12 md:py-24 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section className="relative px-6 py-16 md:py-32 max-w-7xl mx-auto overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             {/* Left Content */}
             <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-xl"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative z-10"
             >
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-sky-100 text-sky-700 text-sm font-semibold tracking-wide mb-6 uppercase">
-                Teknisi Terpercaya
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-100 text-sky-700 text-xs font-black tracking-widest uppercase mb-8">
+                <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+                Teknisi Tersedia Hari Ini
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
-                Jasa Service AC Profesional, 
-                <span className="text-[#0284c7] block mt-2">Hasil Bersih & Dingin Maksimal</span>
+              <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.05] mb-8 tracking-tight">
+                Service AC Panggilan <br />
+                <span className="text-sky-600">Rumah & Kantor</span>
               </h1>
-              <p className="text-lg text-slate-500 leading-relaxed mb-8">
-                Kembalikan kesejukan ruangan Anda dengan layanan teknik AC bersertifikat. 
-                Transparan, bergaransi, dan dikerjakan oleh ahli berpengalaman.
+              <p className="text-xl text-slate-500 leading-relaxed mb-10 max-w-lg">
+                Teknisi datang ke lokasi untuk cuci AC, isi freon, pengecekan, perbaikan, hingga bongkar pasang. 
+                <span className="text-slate-900 font-semibold italic"> Biaya dikonfirmasi sebelum pengerjaan dimulai.</span>
               </p>
 
-              <div className="flex flex-wrap gap-4 mb-12">
-                <button className="bg-[#0f172a] text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
-                  Lihat Layanan
+              <div className="flex flex-col sm:flex-row gap-5 mb-14">
+                <button className="bg-[#0f172a] text-white px-10 py-5 rounded-[24px] font-bold text-lg hover:bg-slate-800 transition-all shadow-2xl shadow-slate-200 flex items-center justify-center gap-3 group">
+                  <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                  Chat Teknisi via WhatsApp
                 </button>
-                <button className="bg-[#22d3ee] hover:bg-[#06b6d4] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-xl shadow-cyan-100">
-                  <MessageSquare className="w-5 h-5" />
-                  Hubungi WhatsApp
+                <button className="bg-white text-slate-900 border-2 border-slate-100 px-10 py-5 rounded-[24px] font-bold text-lg hover:border-slate-300 transition-all flex items-center justify-center gap-3">
+                  <Calendar className="w-6 h-6 text-sky-600" />
+                  Cek Jadwal Hari Ini
                 </button>
               </div>
 
-              {/* Social Proof */}
-              <div className="flex items-center gap-6 border-t border-slate-100 pt-8">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
-                      <img 
-                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 10}`} 
-                        alt="Avatar" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-slate-500 text-sm font-medium">
-                  Dipercaya oleh <span className="font-bold text-slate-900">12.000+</span> Pelanggan di Jakarta
-                </p>
+              {/* Hero Trust Points */}
+              <div className="flex flex-wrap gap-8 py-8 border-t border-slate-100">
+                {[
+                  { icon: Zap, label: "Respon Cepat" },
+                  { icon: Wallet, label: "Biaya Transparan" },
+                  { icon: ShieldCheck, label: "Garansi Layanan" }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3 text-slate-600 font-bold text-sm">
+                    <item.icon className="w-5 h-5 text-sky-500" />
+                    {item.label}
+                  </div>
+                ))}
               </div>
             </motion.div>
 
-            {/* Right Content - Hero Image */}
+            {/* Right Content - Visual Hero */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
               className="relative"
             >
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
+              <div className="relative rounded-[60px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] bg-slate-100">
                 <img 
-                  src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1200" 
-                  alt="AC Technician" 
-                  className="w-full h-full object-cover aspect-[4/5] lg:aspect-[4/5]"
+                  src="/images/hero-technician-ac.webp" 
+                  alt="Teknisi AC Profesional Arcticool sedang melakukan perbaikan unit indoor" 
+                  className="w-full h-full object-cover aspect-[4/5] lg:aspect-[4/5] hover:scale-105 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent pointer-events-none" />
               </div>
 
-              {/* Stats Card Overlay */}
+              {/* Floating Badges */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="absolute bottom-10 -left-6 md:-left-12 bg-white p-5 rounded-2xl shadow-2xl flex items-center gap-4 max-w-[220px]"
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="absolute -bottom-10 -left-10 bg-white p-6 rounded-[32px] shadow-2xl border border-slate-50 flex items-center gap-5 max-w-[280px]"
               >
-                <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
-                  <Star className="w-6 h-6 fill-sky-600" />
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-600">
+                  <Star className="w-7 h-7 fill-sky-600" />
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-slate-900">5.000+</div>
-                  <div className="text-xs text-slate-500 font-medium">Unit Ditangani</div>
+                  <div className="text-2xl font-black text-slate-900 tracking-tighter">5.000+</div>
+                  <div className="text-sm text-slate-500 font-bold">Unit Ditangani</div>
                 </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.7 }}
+                className="absolute top-1/4 -right-12 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl border border-white/50 hidden lg:flex items-center gap-3"
+              >
+                <div className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-sm font-extrabold text-slate-900">Garansi Layanan 30 Hari</span>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="px-6 py-12 md:py-20 bg-white border-t border-slate-50">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Feature 1 */}
-              <div className="group">
-                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-sky-600 mb-5 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                  <CheckCircle2 className="w-6 h-6" />
+        {/* Trust Bar - Compact Trust Chips */}
+        <section className="bg-slate-50/50 py-16 border-y border-slate-100">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { title: "Peralatan Lengkap", desc: "Teknisi membawa tangga & peralatan sendiri", icon: Wrench },
+                { title: "Harga Transparan", desc: "Biaya dikonfirmasi sebelum pengerjaan", icon: Wallet },
+                { title: "Garansi Pasti", desc: "Garansi sesuai dengan jenis layanan Anda", icon: ShieldCheck },
+                { title: "Jangkauan Luas", desc: "Bisa panggilan rumah, apartemen, & kantor", icon: MapPin }
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-5 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                  <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-2xl flex items-center justify-center text-sky-600">
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider mb-1">{item.title}</h4>
+                    <p className="text-xs text-slate-500 leading-tight font-medium">{item.desc}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Profesional</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  Teknisi bersertifikat dan terlatih secara formal.
-                </p>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="group">
-                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-sky-600 mb-5 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                  <Wallet className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Transparan</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  Harga sesuai pricelist, tanpa biaya tersembunyi.
-                </p>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="group">
-                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-sky-600 mb-5 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                  <ShieldCheck className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Bergaransi</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  Garansi pengerjaan 30 hari untuk kepuasan Anda.
-                </p>
-              </div>
-
-              {/* Feature 4 */}
-              <div className="group">
-                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-sky-600 mb-5 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                  <Zap className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Respon Cepat</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  Kunjungan teknisi di hari yang sama saat order.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Services Section (Layanan Kami) */}
-        <section id="services" className="px-6 py-20 bg-slate-50/50">
+        <section id="services" className="px-6 py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-              <div>
-                <span className="text-[#0284c7] text-xs font-bold tracking-widest uppercase mb-3 block">
-                  Layanan Kami
-                </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 max-w-lg">
-                  Solusi Lengkap Untuk Semua Masalah AC Anda
-                </h2>
-              </div>
-              <a href="#" className="flex items-center gap-2 text-slate-900 font-bold hover:text-sky-600 transition-colors group">
-                Lihat Semua Layanan
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+            <div className="mb-20">
+              <span className="text-sky-600 text-xs font-black tracking-[0.3em] uppercase mb-4 block">LAYANAN UNGGULAN</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Solusi Lengkap Masalah AC</h2>
             </div>
 
-            {/* Services Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Featured Service Card */}
-              <motion.div 
-                whileHover={{ y: -5 }}
-                className="lg:col-span-1 bg-white rounded-[32px] overflow-hidden shadow-sm border border-slate-100 flex flex-col"
-              >
-                <div className="relative h-64 bg-sky-50 overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&q=80&w=800" 
-                    alt="Cleaning AC" 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent" />
-                </div>
-                <div className="p-8 flex flex-col flex-grow">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-slate-900">Cuci AC Reguler</h3>
-                    <span className="px-3 py-1 bg-sky-100 text-sky-700 text-[10px] font-bold uppercase rounded-full">
-                      Terpopuler
-                    </span>
-                  </div>
-                  <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                    Pembersihan unit indoor dan outdoor secara menyeluruh untuk udara yang lebih sehat dan hemat listrik.
-                  </p>
-                  <button className="mt-auto w-full py-4 px-6 rounded-xl border-2 border-slate-900 text-slate-900 font-bold hover:bg-slate-900 hover:text-white transition-all">
-                    Pesan Sekarang
-                  </button>
-                </div>
-              </motion.div>
-
-              {/* Specific Services Grid */}
-              <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Service 1 */}
-                <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-700 mb-6">
-                    <Wrench className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Perbaikan AC</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    Solusi untuk AC tidak dingin, berisik, atau bocor air.
-                  </p>
-                </motion.div>
-
-                {/* Service 2 */}
-                <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-700 mb-6">
-                    <Droplets className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Isi/Tambah Freon</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    Pengisian gas refrigeran R32, R410A, atau R22 sesuai standar.
-                  </p>
-                </motion.div>
-
-                {/* Service 3 */}
-                <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-700 mb-6">
-                    <HardHat className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Bongkar Pasang</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    Pemindahan unit AC lama atau pemasangan unit baru yang presisi.
-                  </p>
-                </motion.div>
-
-                {/* Service 4 */}
-                <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-700 mb-6">
-                    <Calendar className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Maintenance</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">
-                    Kontrak perawatan berkala untuk kantor dan industri.
-                  </p>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Us & How We Work Section (Mengapa Memilih & Bagaimana Kami Bekerja) */}
-        <section className="px-6 py-20 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32">
-              
-              {/* Left Column: Why Choose Us */}
-              <div className="flex flex-col">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
-                  Mengapa Memilih Arcticool?
-                </h2>
-                
-                <div className="space-y-10">
-                  {/* Item 1 */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="flex gap-4"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#22d3ee] flex items-center justify-center text-white mt-1">
-                      <Check className="w-4 h-4 stroke-[3]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Laporan Digital</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
-                        Terima laporan hasil kerja dan foto unit sebelum/sesudah via WhatsApp.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Item 2 */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                    className="flex gap-4"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#22d3ee] flex items-center justify-center text-white mt-1">
-                      <Check className="w-4 h-4 stroke-[3]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Peralatan Modern</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
-                        Menggunakan jet cleaner tekanan tinggi dan alat deteksi freon digital.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Item 3 */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                    className="flex gap-4"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#22d3ee] flex items-center justify-center text-white mt-1">
-                      <Check className="w-4 h-4 stroke-[3]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Harga Kompetitif</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
-                        Kualitas premium dengan harga yang tetap masuk akal dan terstandarisasi.
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-
-              {/* Right Column: How We Work */}
-              <div className="flex flex-col">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
-                  Bagaimana Kami Bekerja?
-                </h2>
-
-                <div className="relative space-y-12 py-8">
-                  {/* Vertical Line */}
-                  <div className="absolute left-6 top-14 bottom-8 w-0.5 bg-slate-200 z-0" />
-
-                  {/* Step 1 */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="flex items-start gap-8 relative z-10"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-bold text-sm shadow-lg relative z-20">
-                      01
-                    </div>
-                    <div className="relative z-20 bg-white pr-4">
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Pemesanan Online</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
-                        Isi formulir atau hubungi kami via WA untuk menentukan jadwal.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Step 2 */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                    className="flex items-start gap-8 relative z-10"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-slate-900 bg-white text-slate-900 flex items-center justify-center font-bold text-sm relative z-20">
-                      02
-                    </div>
-                    <div className="relative z-20 bg-white pr-4">
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Kedatangan Teknisi</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
-                        Teknisi datang tepat waktu dengan perlengkapan lengkap dan APD.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Step 3 */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                    className="flex items-start gap-8 relative z-10"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-slate-900 bg-white text-slate-900 flex items-center justify-center font-bold text-sm relative z-20">
-                      03
-                    </div>
-                    <div className="relative z-20 bg-white pr-4">
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Pengerjaan & Quality Control</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
-                        Service dilakukan secara teliti diikuti pengetesan suhu dan tekanan.
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Step 4 */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="flex items-start gap-8 relative z-10"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-slate-900 bg-white text-slate-900 flex items-center justify-center font-bold text-sm relative z-20">
-                      04
-                    </div>
-                    <div className="relative z-20 bg-white pr-4">
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">Pembayaran & Garansi</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
-                        Pembayaran cashless dan penerimaan nota serta garansi digital.
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-        {/* Operational Areas (Wilayah Operasional) */}
-        <section className="bg-slate-50 py-16 px-6 border-y border-slate-100">
-          <div className="max-w-7xl mx-auto text-center">
-            <span className="text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-8 block">
-              Wilayah Operasional
-            </span>
-            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-              {["Jakarta Selatan", "Jakarta Timur", "Jakarta Barat", "Tangerang Selatan", "Depok", "Bekasi"].map((area) => (
-                <div 
-                  key={area}
-                  className="px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium hover:border-slate-400 hover:text-slate-900 transition-all cursor-default shadow-sm"
-                >
-                  {area}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing Section (Investasi Untuk Kenyamanan) */}
-        <section id="pricing" className="bg-[#0b1b2d] py-32 px-6 relative overflow-hidden">
-          {/* Advanced Background Elements */}
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-sky-500/10 blur-[150px] rounded-full -z-0" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full -z-0" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
-
-          <div className="max-w-7xl mx-auto relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-20">
-              <motion.span 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-sky-400 text-xs font-bold tracking-[0.3em] uppercase mb-4 block"
-              >
-                PAKET LAYANAN
-              </motion.span>
-              <motion.h2 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
-              >
-                Investasi Untuk Kenyamanan
-              </motion.h2>
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed mb-8"
-              >
-                Pilih layanan terbaik sesuai kebutuhan AC Anda, dengan harga transparan dan tanpa biaya tersembunyi.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sky-300 text-sm font-medium"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-                Konsultasi gratis sebelum pengerjaan
-              </motion.div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-20">
-              {/* Card 1: Cuci AC Standard */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Featured Service: Cuci AC */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -8 }}
-                className="group bg-slate-800/40 backdrop-blur-xl border border-white/10 p-10 rounded-[40px] flex flex-col transition-all hover:bg-slate-800/60 hover:border-sky-500/30"
+                className="lg:col-span-7 bg-[#0f172a] rounded-[48px] overflow-hidden flex flex-col md:flex-row shadow-2xl"
               >
-                <div className="mb-8">
-                  <div className="text-sky-400 text-xs font-bold tracking-widest uppercase mb-4">PERAWATAN RUTIN</div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Cuci AC Standard</h3>
+                <div className="md:w-1/2 relative h-64 md:h-auto">
+                  <img 
+                    src="/images/service-cleaning-ac.webp" 
+                    alt="Proses cuci AC menggunakan water pressure jet" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-transparent to-transparent hidden md:block" />
+                </div>
+                <div className="md:w-1/2 p-10 md:p-14 flex flex-col justify-center">
+                  <div className="inline-block px-4 py-1.5 rounded-full bg-sky-500 text-white text-[10px] font-black tracking-widest uppercase mb-6">BEST SELLER</div>
+                  <h3 className="text-3xl font-extrabold text-white mb-6">Cuci AC Indoor & Outdoor</h3>
+                  <p className="text-slate-400 text-base leading-relaxed mb-8">
+                    Membersihkan unit indoor, outdoor, filter, dan saluran pembuangan agar AC kembali dingin, tidak bau, dan tidak mudah bocor.
+                  </p>
+                  <button className="flex items-center gap-3 text-sky-400 font-bold hover:gap-5 transition-all group">
+                    Konsultasi layanan
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Secondary Services Grid */}
+              <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {[
+                  { title: "Isi Freon", desc: "Pengecekan dan penambahan freon sesuai kebutuhan unit.", icon: Droplets },
+                  { title: "Perbaikan AC", desc: "Diagnosa masalah AC kurang dingin, bocor, atau error.", icon: Settings },
+                  { title: "Bongkar Pasang", desc: "Pemindahan dan pemasangan ulang AC yang rapi dan aman.", icon: HardHat },
+                  { title: "Maintenance", desc: "Perawatan rutin untuk rumah, kantor, cafe, dan ruko.", icon: Calendar }
+                ].map((item, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 hover:bg-white hover:shadow-xl transition-all group"
+                  >
+                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-800 mb-6 shadow-sm group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                      <item.icon className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-lg font-black text-slate-900 mb-3">{item.title}</h4>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium">{item.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Us & How We Work (Mengapa Memilih Kami & Prosedur) */}
+        <section className="px-6 py-24 md:py-32 bg-slate-50/30 overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-12 tracking-tight">Mengapa pelanggan memilih Arcticool?</h2>
+                
+                <div className="space-y-8">
+                  {[
+                    "Teknisi menjelaskan kondisi unit sebelum pengerjaan",
+                    "Biaya transparan dan dikonfirmasi di awal",
+                    "Pengerjaan rapi untuk rumah, kantor, dan ruko",
+                    "Tersedia garansi sesuai jenis layanan",
+                    "Jadwal kunjungan sesuai ketersediaan Anda"
+                  ].map((point, idx) => (
+                    <motion.div 
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="flex gap-5 group"
+                    >
+                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-white mt-1 group-hover:scale-110 transition-transform">
+                        <Check className="w-4 h-4 stroke-[4]" />
+                      </div>
+                      <p className="text-lg font-bold text-slate-700 leading-tight">{point}</p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mt-16 relative">
+                  <div className="relative rounded-[48px] overflow-hidden shadow-2xl">
+                    <img 
+                      src="/images/process-technician-inspection.webp" 
+                      alt="Teknisi Arcticool sedang melakukan pengecekan tekanan freon" 
+                      className="w-full aspect-video object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* How We Work Panel */}
+              <div className="bg-white p-10 md:p-16 rounded-[60px] border border-slate-100 shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-50 rounded-bl-[100px] -z-0" />
+                
+                <h3 className="text-3xl font-black text-slate-900 mb-12 relative z-10">Prosedur Kerja Kami</h3>
+                
+                <div className="space-y-12 relative z-10">
+                  {[
+                    { step: "01", title: "Konsultasi Keluhan", desc: "Ceritakan masalah AC Anda kepada admin." },
+                    { step: "02", title: "Konfirmasi Jadwal", desc: "Tentukan waktu dan lokasi kunjungan teknisi." },
+                    { step: "03", title: "Cek Kondisi Unit", desc: "Teknisi melakukan diagnosa awal di lokasi." },
+                    { step: "04", title: "Konfirmasi Biaya", desc: "Harga disepakati sebelum pengerjaan dimulai." },
+                    { step: "05", title: "Service & Uji Coba", desc: "AC diservice dan diuji sampai dingin kembali." }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-8 group">
+                      <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-xl group-hover:bg-sky-600 transition-colors shadow-lg">
+                        {item.step}
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-black text-slate-900 mb-1 tracking-tight">{item.title}</h4>
+                        <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing Section (Estimasi Biaya) */}
+        <section id="pricing" className="bg-[#0b1b2d] py-32 px-6 relative overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-sky-500/10 blur-[150px] rounded-full" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full" />
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="text-center mb-24">
+              <span className="text-sky-400 text-xs font-black tracking-[0.4em] uppercase mb-6 block">PRICING & PACKAGES</span>
+              <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight">Estimasi Biaya Service AC</h2>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+                Harga berikut adalah estimasi awal. Biaya final akan dikonfirmasi setelah teknisi mengecek kondisi unit dan lokasi pengerjaan.
+              </p>
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-bold">
+                <AlertCircle className="w-5 h-5" />
+                Tidak ada pengerjaan tambahan tanpa persetujuan pelanggan.
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-24">
+              {/* Card 1: Cuci AC Standard */}
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="bg-slate-800/30 backdrop-blur-xl border border-white/10 p-12 rounded-[48px] flex flex-col hover:border-sky-500/30 transition-all"
+              >
+                <div className="mb-10">
+                  <div className="text-sky-400 text-[10px] font-black tracking-widest uppercase mb-4">PERAWATAN RUTIN</div>
+                  <h3 className="text-2xl font-black text-white mb-4">Cuci AC Standard</h3>
+                  <p className="text-slate-500 text-sm font-medium mb-8">Untuk perawatan rutin AC rumah, kamar, kos, atau kantor kecil.</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-white">Rp 75rb</span>
+                    <span className="text-sm font-bold text-slate-400 mr-1">Mulai</span>
+                    <span className="text-5xl font-black text-white tracking-tighter">Rp 75rb</span>
                     <span className="text-slate-400 text-sm">/unit</span>
                   </div>
                 </div>
-                
-                <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                  Perawatan rutin untuk menjaga AC tetap bersih dan bekerja optimal.
-                </p>
 
                 <div className="space-y-4 mb-12 flex-grow">
                   {[
-                    "Cuci indoor & outdoor",
+                    "Cuci indoor dan outdoor",
                     "Pembersihan filter",
-                    "Pemeriksaan freon",
-                    "Pemeriksaan aliran air"
+                    "Pengecekan aliran air",
+                    "Pengecekan kondisi freon"
                   ].map((feature) => (
-                    <div key={feature} className="flex items-center gap-3 text-slate-300 text-sm">
-                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/10 flex items-center justify-center">
-                        <Check className="w-3 h-3 text-sky-400 stroke-[3]" />
+                    <div key={feature} className="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                      <div className="w-5 h-5 rounded-full bg-sky-500/10 flex items-center justify-center">
+                        <Check className="w-3 h-3 text-sky-400 stroke-[4]" />
                       </div>
                       {feature}
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-6 border-t border-white/5 mb-8">
-                  <div className="text-slate-500 text-xs font-medium italic">
-                    "Estimasi pengerjaan 30–45 menit"
-                  </div>
+                <div className="pt-8 border-t border-white/5 mb-10 flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                  <Clock className="w-4 h-4 text-sky-500" />
+                  Estimasi 30–45 Menit
                 </div>
 
-                <button className="w-full py-4 rounded-2xl border-2 border-white/10 text-white font-bold hover:bg-white hover:text-[#0b1b2d] transition-all group-hover:border-white">
-                  Pilih Paket
+                <button className="w-full py-5 rounded-2xl border-2 border-white/10 text-white font-black text-lg hover:bg-white hover:text-[#0b1b2d] transition-all">
+                  Pesan Cuci AC
                 </button>
               </motion.div>
 
               {/* Card 2: Paket Hemat Dingin (Recommended) */}
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                whileHover={{ y: -12 }}
-                className="relative bg-white p-[2px] rounded-[48px] shadow-2xl shadow-sky-500/20 -mt-6 mb-6"
+                whileHover={{ y: -15 }}
+                className="relative bg-white p-12 rounded-[56px] shadow-2xl shadow-sky-500/20 z-10 flex flex-col scale-105"
               >
-                {/* Gradient Border Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-cyan-600 rounded-[48px] -z-10 animate-pulse opacity-50" />
-                
-                <div className="bg-white p-10 rounded-[46px] flex flex-col h-full relative overflow-hidden">
-                  {/* Recommended Badge */}
-                  <div className="absolute top-0 right-0 left-0 bg-gradient-to-r from-sky-500 to-cyan-500 text-white text-[10px] font-bold tracking-[0.2em] uppercase text-center py-2.5">
-                    PALING POPULER
-                  </div>
-
-                  <div className="mt-6 mb-8">
-                    <div className="text-sky-600 text-xs font-bold tracking-widest uppercase mb-4">REKOMENDASI</div>
-                    <h3 className="text-3xl font-extrabold text-slate-900 mb-4">Paket Hemat Dingin</h3>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-5xl font-bold text-slate-900 tracking-tighter">Rp 195rb</span>
-                      <span className="text-slate-400 text-base">/paket</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-sky-50 rounded-2xl p-4 mb-8 border border-sky-100">
-                    <p className="text-sky-900 text-sm font-medium leading-relaxed">
-                      Pilihan paling lengkap untuk AC yang kurang dingin dan membutuhkan perawatan menyeluruh.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 mb-12 flex-grow">
-                    {[
-                      "Cuci AC indoor & outdoor",
-                      "Tambah freon (semua tipe)",
-                      "Vakum saluran drainase",
-                      "Pemeriksaan tekanan freon",
-                      "Garansi 30 hari",
-                      "Pengecekan performa pendinginan"
-                    ].map((feature) => (
-                      <div key={feature} className="flex items-center gap-3 text-slate-700 text-sm font-medium">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center">
-                          <Check className="w-3.5 h-3.5 text-sky-600 stroke-[3]" />
-                        </div>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="pt-6 border-t border-slate-100 mb-8">
-                    <div className="flex items-center gap-2 text-slate-500 text-xs font-medium">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      Estimasi pengerjaan 60–90 menit
-                    </div>
-                  </div>
-
-                  <button className="w-full py-5 rounded-2xl bg-[#0b1b2d] text-white font-extrabold text-lg hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
-                    Pesan Paket
-                  </button>
+                <div className="absolute top-0 right-0 left-0 bg-gradient-to-r from-sky-500 to-cyan-500 text-white text-[10px] font-black tracking-[0.3em] uppercase text-center py-3 rounded-t-[56px]">
+                  PALING DIREKOMENDASIKAN
                 </div>
-              </motion.div>
 
-              {/* Card 3: Bongkar Pasang */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                whileHover={{ y: -8 }}
-                className="group bg-slate-800/40 backdrop-blur-xl border border-white/10 p-10 rounded-[40px] flex flex-col transition-all hover:bg-slate-800/60 hover:border-sky-500/30"
-              >
-                <div className="mb-8">
-                  <div className="text-sky-400 text-xs font-bold tracking-widest uppercase mb-4">RELOKASI & PASANG</div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Bongkar Pasang</h3>
+                <div className="mt-8 mb-10">
+                  <div className="text-sky-600 text-[10px] font-black tracking-widest uppercase mb-4">PAKET FAVORIT</div>
+                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Paket Hemat Dingin</h3>
+                  <p className="text-slate-500 text-sm font-medium mb-8">Cocok untuk AC yang kurang dingin, lama tidak diservice, atau bermasalah.</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-white">Rp 350rb</span>
-                    <span className="text-slate-400 text-sm">/unit</span>
+                    <span className="text-sm font-bold text-slate-400 mr-1">Mulai</span>
+                    <span className="text-6xl font-black text-slate-900 tracking-tighter">Rp 195rb</span>
+                    <span className="text-slate-400 text-base">/paket</span>
                   </div>
                 </div>
-                
-                <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                  Layanan pemindahan dan pemasangan ulang AC dengan pengerjaan rapi dan aman.
-                </p>
 
                 <div className="space-y-4 mb-12 flex-grow">
                   {[
-                    "Pemindahan unit",
-                    "Instalasi pipa baru",
-                    "Pengecekan fungsi",
-                    "Pemasangan bracket",
-                    "Uji coba setelah pemasangan"
+                    "Cuci indoor dan outdoor",
+                    "Tambah freon (all type)",
+                    "Vakum saluran drainase",
+                    "Cek tekanan & suhu",
+                    "Garansi 30 Hari",
+                    "Pengecekan performa"
                   ].map((feature) => (
-                    <div key={feature} className="flex items-center gap-3 text-slate-300 text-sm">
-                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/10 flex items-center justify-center">
-                        <Check className="w-3 h-3 text-sky-400 stroke-[3]" />
+                    <div key={feature} className="flex items-center gap-4 text-slate-700 text-sm font-bold">
+                      <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 text-sky-600 stroke-[4]" />
                       </div>
                       {feature}
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-6 border-t border-white/5 mb-8">
-                  <div className="text-slate-500 text-xs font-medium italic">
-                    "Cocok untuk relokasi rumah / kantor"
+                <div className="bg-sky-50/50 rounded-2xl p-4 mb-10 flex items-center gap-3 text-sky-700 text-xs font-bold">
+                  <Star className="w-5 h-5 fill-sky-600 text-sky-600" />
+                  Paket favorit rumah & kantor
+                </div>
+
+                <button className="w-full py-6 rounded-2xl bg-[#0b1b2d] text-white font-black text-xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
+                  Pesan Paket Favorit
+                </button>
+              </motion.div>
+
+              {/* Card 3: Bongkar Pasang */}
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="bg-slate-800/30 backdrop-blur-xl border border-white/10 p-12 rounded-[48px] flex flex-col hover:border-sky-500/30 transition-all"
+              >
+                <div className="mb-10">
+                  <div className="text-sky-400 text-[10px] font-black tracking-widest uppercase mb-4">RELOKASI & PASANG</div>
+                  <h3 className="text-2xl font-black text-white mb-4">Bongkar Pasang</h3>
+                  <p className="text-slate-500 text-sm font-medium mb-8">Untuk relokasi AC rumah, kantor, apartemen, atau ruko.</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-sm font-bold text-slate-400 mr-1">Mulai</span>
+                    <span className="text-5xl font-black text-white tracking-tighter">Rp 350rb</span>
+                    <span className="text-slate-400 text-sm">/unit</span>
                   </div>
                 </div>
 
-                <button className="w-full py-4 rounded-2xl border-2 border-white/10 text-white font-bold hover:bg-white hover:text-[#0b1b2d] transition-all group-hover:border-white">
-                  Pilih Paket
+                <div className="space-y-4 mb-12 flex-grow">
+                  {[
+                    "Bongkar unit AC lama",
+                    "Instalasi ulang unit baru",
+                    "Pemasangan bracket",
+                    "Uji coba pendinginan",
+                    "Pengecekan kebocoran"
+                  ].map((feature) => (
+                    <div key={feature} className="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                      <div className="w-5 h-5 rounded-full bg-sky-500/10 flex items-center justify-center">
+                        <Check className="w-3 h-3 text-sky-400 stroke-[4]" />
+                      </div>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-8 border-t border-white/5 mb-10 flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                  <Clock className="w-4 h-4 text-sky-500" />
+                  Waktu Menyesuaikan Lokasi
+                </div>
+
+                <button className="w-full py-5 rounded-2xl border-2 border-white/10 text-white font-black text-lg hover:bg-white hover:text-[#0b1b2d] transition-all">
+                  Booking Sekarang
                 </button>
               </motion.div>
             </div>
 
-            {/* Trust Indicators Row */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 border-t border-white/10 pt-12"
-            >
-              {[
-                { icon: MessageSquare, label: "Konsultasi Gratis" },
-                { icon: ShieldCheck, label: "Teknisi Profesional" },
-                { icon: Zap, label: "Pengerjaan Cepat" },
-                { icon: Wallet, label: "Harga Transparan" }
-              ].map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center gap-3 text-center group">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-500/40 transition-all">
-                    <item.icon className="w-6 h-6" />
-                  </div>
-                  <span className="text-slate-300 text-xs font-bold tracking-wider uppercase">{item.label}</span>
+            {/* Bottom Trust Chips */}
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 pt-12 border-t border-white/10">
+              {["Konsultasi Gratis", "Biaya Transparan", "Garansi Layanan", "Teknisi Berpengalaman"].map((trust) => (
+                <div key={trust} className="flex items-center gap-3 text-slate-400 font-black text-xs tracking-widest uppercase">
+                  <div className="w-2 h-2 rounded-full bg-sky-500" />
+                  {trust}
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
-        {/* Testimonials Section (Apa Kata Mereka?) */}
-        <section className="bg-white py-24 px-6 overflow-hidden">
+
+        {/* Testimonials Section */}
+        <section className="bg-white py-24 md:py-40 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
-                Apa Kata Mereka?
-              </h2>
-              <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-                Dipercaya oleh lebih dari 12.000+ pelanggan terbaik kami di seluruh Jabodetabek.
+            <div className="text-center mb-24">
+              <h2 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">Kepuasan Pelanggan</h2>
+              <p className="text-slate-500 text-xl max-w-2xl mx-auto font-medium">
+                Dipercaya oleh lebih dari 5.000+ pelanggan terbaik kami di seluruh Jabodetabek.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {[
                 {
-                  name: "Anwar Hakim",
-                  role: "Bapak Rumah Tangga",
-                  text: "Teknisinya sangat ramah dan pengerjaannya sangat bersih. AC saya jadi dingin lagi seperti baru beli. Sangat merekomendasikan layanan Arcticool!",
-                  image: "1"
+                  name: "Rendi Pratama",
+                  role: "Pemilik Rumah",
+                  loc: "Jakarta Selatan",
+                  text: "AC kamar sempat bocor dan kurang dingin. Setelah dicek, teknisi bersihkan indoor-outdoor dan saluran pembuangan. Sekarang sudah normal lagi."
                 },
                 {
-                  name: "Siska Amelia",
-                  role: "Karyawan Swasta",
-                  text: "Sangat puas dengan layanan cuci AC-nya. Laporan digitalnya keren banget, jadi tahu apa saja yang dikerjakan teknisi. Langganan terus!",
-                  image: "2"
+                  name: "Sari Wijaya",
+                  role: "Office Manager",
+                  loc: "Tangerang",
+                  text: "Saya booking untuk service AC kantor. Tim datang sesuai jadwal, kerja rapi, dan biaya dijelaskan sebelum mulai. Sangat profesional."
                 },
                 {
-                  name: "Rendy Wijaya",
-                  role: "Wiraswasta",
-                  text: "Harga transparan dan tidak ada biaya tambahan yang aneh-aneh. Garansinya juga beneran ada. Terbaik pokoknya!",
-                  image: "3"
+                  name: "Budi Santoso",
+                  role: "Pengusaha",
+                  loc: "Bekasi",
+                  text: "Bongkar pasang AC dari rumah lama ke rumah baru, hasilnya rapi dan unit dites dulu sebelum teknisi pulang. Puas sekali."
                 }
               ].map((item, idx) => (
                 <motion.div 
                   key={idx}
                   whileHover={{ y: -5 }}
-                  className="bg-white p-10 rounded-[32px] border border-slate-100 shadow-sm"
+                  className="bg-slate-50 p-12 rounded-[48px] border border-slate-100 flex flex-col"
                 >
-                  <div className="flex gap-1 mb-6">
+                  <div className="flex gap-1 mb-8">
                     {[1, 2, 3, 4, 5].map((s) => (
                       <Star key={s} className="w-5 h-5 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
-                  <p className="text-slate-700 text-base leading-relaxed mb-8">
+                  <p className="text-slate-800 text-lg leading-relaxed font-bold italic mb-10 flex-grow">
                     "{item.text}"
                   </p>
-                  <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
-                    <img 
-                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${item.image}`} 
-                      alt={item.name} 
-                      className="w-12 h-12 rounded-full bg-slate-100"
-                    />
+                  <div className="flex items-center gap-5 pt-8 border-t border-slate-200/50">
+                    <div className="w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-black text-xl shadow-lg">
+                      {item.name.charAt(0)}
+                    </div>
                     <div>
-                      <div className="font-bold text-slate-900">{item.name}</div>
-                      <div className="text-slate-400 text-sm font-medium">{item.role}</div>
+                      <div className="font-black text-slate-900 text-lg">{item.name}</div>
+                      <div className="text-slate-500 text-sm font-bold tracking-tight">{item.role} • {item.loc}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -841,145 +631,221 @@ export default function App() {
           </div>
         </section>
 
-        {/* FAQ Section (Pertanyaan Umum) */}
-        <section className="bg-slate-50/50 py-24 px-6">
+        {/* FAQ Section */}
+        <section id="faq" className="bg-slate-50 py-24 md:py-40 px-6">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-16 text-center">
-              Pertanyaan Umum
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-20 text-center tracking-tight">Tanya Jawab Umum</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               <FAQItem 
-                q="Apakah ada garansi setelah service?" 
-                a="Ya, kami memberikan garansi pengerjaan selama 30 hari untuk semua jenis layanan service dan perbaikan." 
+                q="Apakah teknisi bisa datang hari yang sama?" 
+                a="Ya, kami menyediakan layanan same-day service tergantung ketersediaan jadwal teknisi. Sangat disarankan untuk booking sebelum jam 12:00 siang." 
                 defaultOpen={true}
               />
               <FAQItem 
-                q="Apakah teknisi membawa tangga sendiri?" 
-                a="Ya, teknisi kami selalu membawa peralatan lengkap termasuk tangga lipat. Anda tidak perlu menyediakan peralatan tambahan apa pun." 
+                q="Apakah harga sudah termasuk pengecekan?" 
+                a="Pengecekan dasar sudah termasuk dalam biaya cuci AC. Untuk diagnosa kerusakan berat tanpa pengerjaan, akan dikenakan biaya visit teknisi." 
               />
               <FAQItem 
-                q="Berapa lama durasi pengerjaan cuci AC?" 
-                a="Durasi pengerjaan biasanya memakan waktu sekitar 45-60 menit per unit, tergantung pada tingkat kekotoran dan posisi unit Anda." 
+                q="Berapa lama proses cuci AC?" 
+                a="Proses cuci AC standard biasanya memakan waktu 30-45 menit per unit, tergantung pada tingkat kekotoran dan posisi unit." 
+              />
+              <FAQItem 
+                q="Apakah ada garansi setelah service?" 
+                a="Kami memberikan garansi pengerjaan 30 hari untuk service cuci dan perbaikan. Syarat dan ketentuan berlaku sesuai jenis layanan." 
+              />
+              <FAQItem 
+                q="Apakah bisa service AC kantor atau ruko?" 
+                a="Tentu saja. Kami melayani unit skala besar untuk perkantoran, ruko, restoran, hingga apartemen dengan penawaran harga khusus." 
               />
             </div>
           </div>
         </section>
 
-        {/* Contact Section (Hubungi Kami) */}
-        <section id="contact" className="px-6 py-20">
-          <div className="max-w-7xl mx-auto bg-[#0284c7] rounded-[48px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-sky-200">
-            {/* Background Decorative Circles */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-sky-400/20 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl" />
+        {/* Final CTA & Contact Section */}
+        <section id="contact" className="px-6 py-24 md:py-40 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+              <div>
+                <span className="text-sky-600 text-sm font-black tracking-[0.4em] uppercase mb-8 block">BOOKING NOW</span>
+                <h2 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-10 tracking-tighter">Butuh Service AC Hari Ini?</h2>
+                <p className="text-xl text-slate-500 leading-relaxed mb-12 max-w-lg">
+                  Ceritakan keluhan AC Anda. Tim admin kami akan segera menjadwalkan kunjungan teknisi terdekat ke lokasi Anda.
+                </p>
 
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                Siap Untuk Kesejukan Maksimal?
-              </h2>
-              <p className="text-sky-100 text-lg mb-12 max-w-2xl mx-auto">
-                Tim teknisi kami tersedia 24/7 untuk memastikan kenyamanan udara di ruangan Anda. Konsultasikan masalah AC Anda gratis sekarang!
-              </p>
-              
-              <div className="flex flex-col md:flex-row justify-center gap-4">
-                <button className="bg-white text-[#0284c7] px-10 py-5 rounded-2xl font-bold text-lg hover:bg-sky-50 transition-all flex items-center justify-center gap-3">
-                  <MessageSquare className="w-6 h-6" />
-                  Chat WhatsApp
-                </button>
-                <button className="bg-sky-600 text-white border border-sky-400 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-sky-700 transition-all">
-                  Hubungi: 0812-3456-7890
-                </button>
+                <div className="space-y-8">
+                  <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center text-sky-600">
+                      <Phone className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <div className="text-slate-400 text-xs font-black uppercase mb-1">Call/WA Admin</div>
+                      <div className="text-2xl font-black text-slate-900">0812-3456-7890</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center text-sky-600">
+                      <Mail className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <div className="text-slate-400 text-xs font-black uppercase mb-1">Email Support</div>
+                      <div className="text-2xl font-black text-slate-900">halo@arcticool.com</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-16 overflow-hidden rounded-[48px] shadow-2xl relative group">
+                  <img src="/images/cta-service-ac.webp" alt="Tim teknisi AC Arcticool siap melayani Anda" className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-sky-900/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
               </div>
 
-              <div className="mt-12 pt-12 border-t border-white/20 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                  <div className="text-sky-200 text-xs font-bold uppercase mb-2">Email</div>
-                  <div className="text-white font-medium">halo@arcticool.com</div>
-                </div>
-                <div>
-                  <div className="text-sky-200 text-xs font-bold uppercase mb-2">Jam Operasional</div>
-                  <div className="text-white font-medium">Senin - Minggu: 08:00 - 20:00</div>
-                </div>
-                <div>
-                  <div className="text-sky-200 text-xs font-bold uppercase mb-2">Kantor Pusat</div>
-                  <div className="text-white font-medium">Kuningan, Jakarta Selatan</div>
-                </div>
+              {/* Booking Form */}
+              <div className="bg-[#0f172a] p-12 md:p-20 rounded-[60px] shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-bl-[200px] pointer-events-none" />
+                
+                <h3 className="text-3xl font-black text-white mb-4 tracking-tight">Form Booking</h3>
+                <p className="text-slate-400 mb-12">Admin akan menghubungi Anda untuk konfirmasi jadwal dan biaya.</p>
+
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                      <input type="text" placeholder="Contoh: Rendi" className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-sky-500 focus:outline-none transition-all" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
+                      <input type="tel" placeholder="0812..." className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-sky-500 focus:outline-none transition-all" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Alamat / Area</label>
+                    <input type="text" placeholder="Jl. Sudirman, Jaksel" className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-sky-500 focus:outline-none transition-all" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Jenis Layanan</label>
+                    <select className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-sky-500 focus:outline-none transition-all appearance-none cursor-pointer">
+                      <option className="bg-slate-900">Pilih Layanan...</option>
+                      <option className="bg-slate-900">Cuci AC Standard</option>
+                      <option className="bg-slate-900">Paket Hemat Dingin</option>
+                      <option className="bg-slate-900">Bongkar Pasang</option>
+                      <option className="bg-slate-900">Perbaikan & Pengecekan</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Keluhan AC</label>
+                    <textarea rows={4} placeholder="Jelaskan masalah AC Anda..." className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-sky-500 focus:outline-none transition-all"></textarea>
+                  </div>
+                  <button className="w-full bg-sky-500 text-white py-6 rounded-[24px] font-black text-xl hover:bg-sky-400 transition-all shadow-xl shadow-sky-900/20 mt-8 uppercase tracking-widest">
+                    Kirim Permintaan Booking
+                  </button>
+                </form>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Operational Areas Section */}
+        <section className="bg-slate-50 py-24 px-6 border-y border-slate-100">
+          <div className="max-w-7xl mx-auto text-center">
+            <span className="text-sky-600 text-xs font-black tracking-[0.4em] uppercase mb-8 block">AREA LAYANAN KAMI</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Melayani Seluruh Jabodetabek</h2>
+            <p className="text-slate-500 font-medium mb-12 max-w-2xl mx-auto">Kami melayani kunjungan teknisi untuk rumah, kantor, apartemen, ruko, cafe, dan tempat usaha.</p>
+            
+            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+              {["Jakarta Selatan", "Jakarta Timur", "Jakarta Barat", "Jakarta Utara", "Jakarta Pusat", "Tangerang Selatan", "Depok", "Bekasi", "Bogor (Area Tertentu)"].map((area) => (
+                <div 
+                  key={area}
+                  className="px-8 py-3.5 rounded-2xl bg-white border border-slate-200 text-slate-900 text-sm font-black hover:border-sky-500 hover:text-sky-600 transition-all cursor-default shadow-sm"
+                >
+                  {area}
+                </div>
+              ))}
+            </div>
+            <p className="mt-12 text-slate-400 text-sm font-bold italic">Hubungi admin untuk memastikan jangkauan teknisi di lokasi spesifik Anda.</p>
           </div>
         </section>
       </main>
 
-      {/* Detailed Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-20 px-6">
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-400 py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 mb-20">
             {/* Brand Column */}
-            <div className="md:col-span-1">
-              <div className="text-2xl font-bold text-white mb-6">Arcticool</div>
-              <p className="text-sm leading-relaxed mb-8">
-                Solusi pendingin udara profesional nomor satu di Jakarta. Teknisi ahli, harga transparan, dan hasil yang selalu memuaskan.
+            <div className="lg:col-span-1">
+              <div className="flex items-center gap-2 mb-8 text-white">
+                <Zap className="w-8 h-8 fill-sky-500 text-sky-500" />
+                <span className="text-2xl font-black tracking-tighter">ARCTICOOL</span>
+              </div>
+              <p className="text-base leading-relaxed mb-10 font-medium">
+                Penyedia jasa service AC profesional dengan teknisi berpengalaman. Prioritas kami adalah kualitas pengerjaan dan kepuasan pelanggan dengan harga yang transparan.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sky-600 hover:text-white transition-all">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sky-600 hover:text-white transition-all">
-                  <Facebook className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-sky-600 hover:text-white transition-all">
-                  <Linkedin className="w-5 h-5" />
-                </a>
+                {[Instagram, Facebook, Linkedin].map((Icon, i) => (
+                  <a key={i} href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-sky-600 hover:text-white transition-all text-white border border-white/5">
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
               </div>
             </div>
 
             {/* Links Column */}
             <div>
-              <h3 className="text-white font-bold mb-6">Layanan Pilihan</h3>
-              <ul className="space-y-4 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Cuci AC Reguler</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Perbaikan AC</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Isi Freon</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Bongkar Pasang</a></li>
+              <h3 className="text-white font-black text-sm uppercase tracking-widest mb-10">Layanan Populer</h3>
+              <ul className="space-y-5 text-sm font-bold">
+                {["Cuci AC Berkala", "Paket Tambah Freon", "Perbaikan AC Bocor", "Instalasi AC Baru", "Bongkar Pasang Unit", "Maintenance Kantor"].map((link) => (
+                  <li key={link}>
+                    <a href="#" className="hover:text-sky-400 transition-colors flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                      {link}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            {/* Quick Links Column */}
+            {/* Hours Column */}
             <div>
-              <h3 className="text-white font-bold mb-6">Navigasi</h3>
-              <ul className="space-y-4 text-sm">
-                <li><a href="#services" className="hover:text-white transition-colors">Semua Layanan</a></li>
-                <li><a href="#about" className="hover:text-white transition-colors">Tentang Kami</a></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">Pricelist 2024</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Hubungi Kami</a></li>
+              <h3 className="text-white font-black text-sm uppercase tracking-widest mb-10">Jam Operasional</h3>
+              <ul className="space-y-6 text-sm font-bold">
+                <li className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <span>Senin - Jumat</span>
+                  <span className="text-white">08:00 - 20:00</span>
+                </li>
+                <li className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <span>Sabtu</span>
+                  <span className="text-white">08:00 - 18:00</span>
+                </li>
+                <li className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <span>Minggu</span>
+                  <span className="text-sky-400 font-black">Open (Booking Only)</span>
+                </li>
               </ul>
             </div>
 
-            {/* Contact Column */}
+            {/* Address Column */}
             <div>
-              <h3 className="text-white font-bold mb-6">Hubungi Kami</h3>
-              <ul className="space-y-4 text-sm">
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-sky-500 shrink-0" />
-                  <span>Jl. Kuningan No. 12, Kuningan Barat, Jakarta Selatan, 12710</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-sky-500 shrink-0" />
-                  <span>0812-3456-7890</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-sky-500 shrink-0" />
-                  <span>halo@arcticool.com</span>
-                </li>
-              </ul>
+              <h3 className="text-white font-black text-sm uppercase tracking-widest mb-10">Kantor Pusat</h3>
+              <div className="space-y-6 text-sm font-bold">
+                <div className="flex gap-4">
+                  <MapPin className="w-5 h-5 text-sky-500 flex-shrink-0" />
+                  <p className="leading-relaxed">Kuningan, Jakarta Selatan, <br />DKI Jakarta 12940</p>
+                </div>
+                <div className="flex gap-4">
+                  <Phone className="w-5 h-5 text-sky-500 flex-shrink-0" />
+                  <p>0812-3456-7890</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-            <p>© 2024 Arcticool Indonesia. Bagian dari PT Kesejukan Abadi.</p>
-            <div className="flex gap-6 uppercase tracking-widest font-bold">
-              <a href="#" className="hover:text-white">Syarat & Ketentuan</a>
-              <a href="#" className="hover:text-white">Privasi</a>
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-xs font-bold tracking-widest uppercase">
+              © 2026 ARCTICOOL. Hak Cipta Dilindungi.
+            </p>
+            <div className="flex gap-8 text-xs font-black tracking-widest uppercase">
+              <a href="#" className="hover:text-sky-400 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-sky-400 transition-colors">Terms of Service</a>
             </div>
           </div>
         </div>
