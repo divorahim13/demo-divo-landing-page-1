@@ -77,33 +77,33 @@ const scaleInSubtle = {
 
 // --- Reusable Components with Animation ---
 
-function SectionHeader({ eyebrow, title, subtitle, light = false }: { eyebrow?: string, title: string, subtitle?: string, light?: boolean }) {
+function SectionHeader({ eyebrow, title, subtitle, light = false, centered = false }: { eyebrow?: string, title: string, subtitle?: string, light?: boolean, centered?: boolean }) {
   return (
     <motion.div 
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className={`mb-10 md:mb-16 ${light ? 'text-white' : 'text-slate-900'}`}
+      className={`mb-10 md:mb-16 ${light ? 'text-white' : 'text-slate-900'} ${centered ? 'flex flex-col items-center text-center' : ''}`}
     >
       {eyebrow && (
         <motion.span 
           variants={fadeUp}
-          className={`${light ? 'text-sky-400' : 'text-sky-600'} text-xs font-black tracking-[0.4em] uppercase mb-3 block`}
+          className={`${light ? 'text-sky-400' : 'text-sky-600'} text-xs font-black tracking-[0.4em] uppercase mb-3 block ${centered ? 'text-center' : ''}`}
         >
           {eyebrow}
         </motion.span>
       )}
       <motion.h2 
         variants={fadeUp}
-        className="text-[clamp(32px,5vw,56px)] font-extrabold tracking-tight mb-4 leading-[1.1]"
+        className={`text-[clamp(32px,5vw,56px)] font-extrabold tracking-tight mb-4 leading-[1.1] ${centered ? 'text-center' : ''}`}
       >
         {title}
       </motion.h2>
       {subtitle && (
         <motion.p 
           variants={fadeUp}
-          className={`${light ? 'text-slate-400' : 'text-slate-500'} text-base md:text-lg max-w-2xl font-medium leading-relaxed`}
+          className={`${light ? 'text-slate-400' : 'text-slate-500'} text-base md:text-lg max-w-2xl font-medium leading-relaxed ${centered ? 'text-center mx-auto' : ''}`}
         >
           {subtitle}
         </motion.p>
@@ -170,10 +170,10 @@ export default function App() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: EASE }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
           scrolled 
-            ? 'bg-white/95 backdrop-blur-xl h-[72px] shadow-lg shadow-slate-200/20 border-b border-slate-100' 
-            : 'bg-transparent h-24'
+            ? 'bg-white/95 backdrop-blur-xl h-[72px] shadow-lg shadow-slate-200/20 border-slate-100' 
+            : 'bg-transparent h-24 border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
@@ -213,7 +213,7 @@ export default function App() {
             <motion.button 
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3 rounded-2xl font-black text-xs tracking-widest uppercase flex items-center gap-2 transition-all shadow-xl shadow-green-100 group border-b-4 border-black/10"
+              className="bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3 rounded-2xl font-black text-xs tracking-widest uppercase flex items-center gap-2 transition-all group border-b-4 border-black/10"
             >
               <WhatsAppIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
               WhatsApp Admin
@@ -611,9 +611,10 @@ export default function App() {
           />
 
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-10 md:mb-16">
+            <div className="mb-10 md:mb-16">
               <SectionHeader 
                 light 
+                centered
                 eyebrow="PAKET & HARGA"
                 title="Estimasi Biaya Service AC"
                 subtitle="Harga transparan untuk kebutuhan service, cuci, isi freon, dan bongkar pasang AC."
@@ -761,8 +762,14 @@ export default function App() {
         {/* Testimonials */}
         <section id="testimonials" className="bg-white py-16 md:py-24 px-6 scroll-mt-[90px]">
           <div className="max-w-7xl mx-auto">
+<<<<<<< HEAD
             <div className="text-center mb-16 md:mb-24">
               <SectionHeader 
+=======
+            <div className="mb-16 md:mb-24">
+              <SectionHeader 
+                centered
+>>>>>>> 105c7ee (fix: align text properly, remove black border flash, clean navbar button glow)
                 eyebrow="TESTIMONI PELANGGAN"
                 title="Apa Kata Pelanggan Kami?"
                 subtitle="Lebih dari 5.000 pelanggan telah mempercayakan perawatan AC rumah, kantor, dan tempat usaha kepada Arcticool."
@@ -931,8 +938,13 @@ export default function App() {
 
         {/* Areas */}
         <section className="bg-slate-50 py-24 px-6 border-y border-slate-100 overflow-hidden">
+<<<<<<< HEAD
           <div className="max-w-7xl mx-auto text-center">
             <SectionHeader eyebrow="WILAYAH LAYANAN" title="Melayani Seluruh Jabodetabek" />
+=======
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader centered eyebrow="WILAYAH LAYANAN" title="Melayani Seluruh Jabodetabek" />
+>>>>>>> 105c7ee (fix: align text properly, remove black border flash, clean navbar button glow)
             <motion.div 
               initial="initial"
               whileInView="animate"
