@@ -762,14 +762,9 @@ export default function App() {
         {/* Testimonials */}
         <section id="testimonials" className="bg-white py-16 md:py-24 px-6 scroll-mt-[90px]">
           <div className="max-w-7xl mx-auto">
-<<<<<<< HEAD
-            <div className="text-center mb-16 md:mb-24">
-              <SectionHeader 
-=======
             <div className="mb-16 md:mb-24">
               <SectionHeader 
                 centered
->>>>>>> 105c7ee (fix: align text properly, remove black border flash, clean navbar button glow)
                 eyebrow="TESTIMONI PELANGGAN"
                 title="Apa Kata Pelanggan Kami?"
                 subtitle="Lebih dari 5.000 pelanggan telah mempercayakan perawatan AC rumah, kantor, dan tempat usaha kepada Arcticool."
