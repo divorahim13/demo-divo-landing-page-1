@@ -394,7 +394,7 @@ export default function App() {
                   x: { delay: 1, duration: 0.6 },
                   y: { repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }
                 }}
-                className="absolute top-1/4 -right-16 bg-white/95 backdrop-blur-md px-8 py-5 rounded-3xl shadow-[0_32px_64px_-16px_rgba(14,165,233,0.15)] border border-white/50 hidden lg:flex items-center gap-4 z-20"
+                className="absolute top-6 -right-4 bg-white/95 backdrop-blur-md px-6 py-4 rounded-3xl shadow-[0_32px_64px_-16px_rgba(14,165,233,0.15)] border border-white/50 hidden lg:flex items-center gap-4 z-20 whitespace-nowrap"
               >
                 <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 animate-ping shadow-lg shadow-emerald-200" />
                 <span className="text-base font-black text-slate-900 uppercase tracking-widest">Garansi 30 Hari</span>
